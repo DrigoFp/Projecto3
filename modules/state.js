@@ -63,3 +63,4 @@ function removerTransacao(id) {
   guardarEstado(); // ve o nome da função
   return transacoes; // devolve o array actualizado
 }
+
