@@ -50,8 +50,16 @@ function obterTransacoes() {
   return transacoes;
 }
 
-function adicionarTransacao(transacao){
-   transacoes.push(objecto) // adicionar um objeto ao array
+function adicionarTransacao(novaTransacao) {
+  // parametro recebe uma nova transacao
+  transacoes.push(novaTransacao); // adicionar um objeto ao array
+  guardarEstado(); // ve o nome da função
+  return transacoes; // devolve o array actualizado
+}
 
-
+function removerTransacao(id) {
+  const indice = transacoes.findIndex((t) => t.id === id); // findIndex() percorre o array, t.id === id compara o id da transação com o id que queremos remove, devolve o índice exato da transação
+  transacoes.splice(indice, 1); // remove 1 elemento 
+  guardarEstado(); // ve o nome da função
+  return transacoes; // devolve o array actualizado
 }
