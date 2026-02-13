@@ -21,20 +21,30 @@ Como aplicar classes diferentes para receita e despesa?
 
 export function criarEstrutura() {
   const listaTransacoes = document.querySelector(".lista-transacoes");
-  listaTransacoes.innerHTML(""); // limpar o container
+  listaTransacoes.innerHTML = ""; // limpar o container
 }
 
-function receberTransacoes(transacoes) {
-  const acederLista = document.getElementsByClassName("lista-transacoes");
+const listaTransacoes = document.querySelector(".lista-transacoes");
+
+export function renderizarTransacoes(transacoes) {
+  // 1. limpar o container
+  listaTransacoes.innerHTML = "";
+
+  // 2. criar elementos dinamicamente
   transacoes.forEach(function (transacao) {
     const caixaTransacao = document.createElement("div");
-    caixaTransacao.innerHTML = `<p>${transacao.descricao}</p>
-                        <p>${transacao.valor}</p>
-                        <p>${transacao.data}</p>
-                        <p>${transacao.categoria}</p>`;
-    acederLista.appendChild(caixaTransacao);
-  });
+    caixaTransacao.classList.add("transacao");
 
+    caixaTransacao.innerHTML = `
+      <p>${transacao.descricao}</p>
+      <p>${transacao.valor}</p>
+      <p>${transacao.data}</p>
+      <p>${transacao.categoria}</p>
+    `;
+
+    // 3. inserir no DOM
+    listaTransacoes.appendChild(caixaTransacao);
+  });
 }
 
 // enviar para o html as transacoes,  <div class="lista-transacoes"></div>

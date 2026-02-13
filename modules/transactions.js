@@ -17,7 +17,9 @@ Use reduce().
 
 Pergunta:
 - O que é o acumulador?
+Resposta: É o valor que vai sendo actualizado a cada iteração do reduce
 - Qual deve ser o valor inicial?
+Resposta: Deve começar em 0
 
 Exemplo mental:
 [100, -50, 200]
@@ -27,16 +29,9 @@ Não escreva loops tradicionais.
 */
 
 function calcularTotalTransacoes(transacoes) {
-  let calculoTransacao = transacoes.reduce(function (acumulador, transacao) {
-    if (transacao.tipo === "receita") {
-      acumulador += transacao.valor;
-    } else {
-      acumulador -= transacao.valor;
-    }
-    return acumulador;
+  return transacoes.reduce(function (acumulador, transacao) {
+    return acumulador + transacao.valor;
   }, 0);
-
-  return calculoTransacao;
 }
 
 function receitatransacoes(transacoes) {
@@ -61,9 +56,9 @@ function despesatransacoes(transacoes) {
   return totalDespesas;
 }
 
-function calcularSaldo(transacoes){
-   let receitas = receitatransacoes(transacoes);
-   let despesas = despesatransacoes(transacoes);
-   let saldo = receitas + despesas
-   return saldo;
+function calcularSaldo(transacoes) {
+  let receitas = receitatransacoes(transacoes);
+  let despesas = despesatransacoes(transacoes);
+  let saldo = receitas + despesas;
+  return saldo;
 }

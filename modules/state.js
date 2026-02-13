@@ -26,30 +26,33 @@ Como garantir que o array nunca fique fora de sincronia?
 
 // transacao  = [valor, data, categoria, descriçao, receita, despesa]
 
-import { lerDados, salvarDados } from "./storage";
+import { lerDados, salvarDados } from "./storage.js";
 
-let lertransacoes = [];
+let transacoes = [];
 
-// le o localStorage, quando o sistema inicia
-export function carregardados() {
-  lertransacoes = lerDados();
+// 1) Carregar dados do localStorage ao iniciar
+export function carregarDados() {
+  transacoes = lerDados(); // devolve [] se não houver nada
 }
 
-// Função que devolve só o array que está guardado em memória
-function obterTransacoes() {
+// 2) Devolver a lista atual
+export function obterTransacoes() {
   return transacoes;
 }
 
-function adicionarTransacao(novaTransacao) {
-  // parametro recebe uma nova transacao
-  lertransacoes.push(novaTransacao); // adicionar um objeto ao array
-  salvarDados(lertransacoes)// salvei na base de dados do local
-  return lertransacoes; // devolve o array actualizado
+// 3) Adicionar nova transação
+export function adicionarTransacao(novaTransacao) {
+  transacoes.push(novaTransacao);
+  salvarDados(transacoes);
+  return transacoes;
 }
 
-function removerTransacao(id) {
-  const indice = lertransacoes.findIndex((t) => t.id === id); // findIndex() percorre o array, t.id === id compara o id da transação com o id que queremos remove, devolve o índice exato da transação
-  lertransacoes.splice(indice, 1); // remove 1 elemento
-  guardarEstado(); // ve o nome da função
-  return lertransacoes; // devolve o array actualizado
+// 4) Remover transação por id
+export function removerTransacao(id) {
+  const indice = transacoes.findIndex(t => t.id === id);
+  if (indice !== -1) {
+    transacoes.splice(indice, 1);
+    salvarDados(transacoes);
+  }
+  return transacoes;
 }
