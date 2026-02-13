@@ -21,3 +21,19 @@ PERGUNTAS PARA VOCÊ:
 DICA:
 localStorage só aceita strings.
 */
+
+const chave = "minhas_transacoes"
+
+export function salvarDados (dados){
+   const dadosConvertidos = JSON.stringify(dados)
+   localStorage.setItem(chave,dadosConvertidos);
+}
+
+export function lerDados (){
+   const dados = localStorage.getItem(chave);
+   if (dados === null){
+      return [];
+   }
+   return JSON.parse(dados)
+}
+

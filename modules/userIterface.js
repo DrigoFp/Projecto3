@@ -18,3 +18,29 @@ REFLEXÃO:
 DESAFIO:
 Como aplicar classes diferentes para receita e despesa?
 */
+
+export function criarEstrutura() {
+  const listaTransacoes = document.querySelector(".lista-transacoes");
+  listaTransacoes.innerHTML(""); // limpar o container
+}
+
+function receberTransacoes(transacoes) {
+  const acederLista = document.getElementsByClassName("lista-transacoes");
+  transacoes.forEach(function (transacao) {
+    const caixaTransacao = document.createElement("div");
+    caixaTransacao.innerHTML = `<p>${transacao.descricao}</p>
+                        <p>${transacao.valor}</p>
+                        <p>${transacao.data}</p>
+                        <p>${transacao.categoria}</p>`;
+    acederLista.appendChild(caixaTransacao);
+  });
+
+}
+
+// enviar para o html as transacoes,  <div class="lista-transacoes"></div>
+
+// obter os dados do estado global
+
+//ler, percorrer com o foreach
+// dentro do foreach criar o html
+// criar um funcao para fazer a parte de cima.

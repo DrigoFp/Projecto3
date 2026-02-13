@@ -25,3 +25,45 @@ Resultado esperado: 250
 
 Não escreva loops tradicionais.
 */
+
+function calcularTotalTransacoes(transacoes) {
+  let calculoTransacao = transacoes.reduce(function (acumulador, transacao) {
+    if (transacao.tipo === "receita") {
+      acumulador += transacao.valor;
+    } else {
+      acumulador -= transacao.valor;
+    }
+    return acumulador;
+  }, 0);
+
+  return calculoTransacao;
+}
+
+function receitatransacoes(transacoes) {
+  let totalReceitas = transacoes.reduce(function (acumulador, transacao) {
+    if (transacao.tipo === "receita") {
+      acumulador += transacao.valor;
+    }
+    return acumulador;
+  }, 0);
+
+  return totalReceitas;
+}
+
+function despesatransacoes(transacoes) {
+  let totalDespesas = transacoes.reduce(function (acumulador, transacao) {
+    if (transacao.tipo === "despesa") {
+      acumulador += transacao.valor; // soma o valor negativo
+    }
+    return acumulador;
+  }, 0);
+
+  return totalDespesas;
+}
+
+function calcularSaldo(transacoes){
+   let receitas = receitatransacoes(transacoes);
+   let despesas = despesatransacoes(transacoes);
+   let saldo = receitas + despesas
+   return saldo;
+}
