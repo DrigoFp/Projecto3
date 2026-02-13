@@ -20,3 +20,23 @@ Sempre que adicionar uma transação:
 Pergunta:
 O que deve acontecer quando a página recarrega?
 */
+
+// inputs do codigo 1
+const inputDescricao = document.querySelector("#descricao");
+const inputQuantidade = document.querySelector("#quantidade");
+
+// 2
+const botaoAdicionar = document.querySelector(".adiciona-historia");
+const inputTipo = document.querySelector("#tipo-transacao");
+9
+botaoAdicionar.addEventListener("click", function () {
+  const descricao = inputDescricao.value;
+  const quantidade = Number(inputQuantidade.value);
+  const tipo = inputTipo.value;
+  console.log("Descrição:", descricao);
+  console.log("Quantidade:", quantidade);
+  console.log("Tipo:", tipo);
+});
+
+// 3
+
