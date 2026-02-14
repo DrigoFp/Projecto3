@@ -26,7 +26,7 @@ Como garantir que o array nunca fique fora de sincronia?
 
 // transacao  = [valor, data, categoria, descriçao, receita, despesa]
 
-import { lerDados, salvarDados } from "./storage.js";
+import { lerDados, salvarDados } from "../Modulo Storage/storage.js";
 
 let transacoes = [];
 
