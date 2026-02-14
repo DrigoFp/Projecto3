@@ -32,6 +32,37 @@ const inputTipo = document.querySelector("#tipo-transacao");
 const botaoAdicionar = document.querySelector(".adiciona-historia");
 const calendario = document.querySelector(".calendario");
 
+// BOTOES DE ACRESCENTAR ELEMENTOS ÀS DESPESAS/RECEITAS
+
+let categoriaSelecionada = null;
+
+const botoesCategoria = document.querySelectorAll(".categorias");
+const selectTipo = document.querySelector("#tipo-transacao");
+
+// quando clico num botão de categoria
+botoesCategoria.forEach(botao => {
+    botao.addEventListener("click", () => {
+
+        const tipoBotao = botao.classList.contains("receita") ? "receita" : "despesa";
+
+        // verificar compatibilidade
+        if (tipoBotao !== selectTipo.value) {
+            alert(`Esta categoria só pode ser usada para ${tipoBotao}.`);
+            return;
+        }
+
+        // remover seleção anterior
+        botoesCategoria.forEach(b => b.classList.remove("ativa"));
+
+        // ativar o botão clicado
+        botao.classList.add("ativa");
+
+        // guardar categoria
+        categoriaSelecionada = botao.textContent.trim();
+    });
+});
+
+
 // CALENDÁRIO DINÂMICO
 
 const hoje = new Date();
