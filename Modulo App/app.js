@@ -35,9 +35,45 @@ const calendario = document.querySelector(".calendario");
 // BOTOES DE ACRESCENTAR ELEMENTOS ÀS DESPESAS/RECEITAS
 
 let categoriaSelecionada = null;
-
 const botoesCategoria = document.querySelectorAll(".categorias");
 const selectTipo = document.querySelector("#tipo-transacao");
+
+// Função que ativa/desativa categorias conforme o tipo escolhido
+
+function atualizarCategorias() {
+    const tipoAtual = selectTipo.value; // "receita" ou "despesa"
+
+    botoesCategoria.forEach(botao => {
+        const tipoBotao = botao.classList.contains("receita") ? "receita" : "despesa";
+
+        if (tipoBotao !== tipoAtual) {
+            botao.classList.add("desativada");
+            botao.classList.remove("ativa");
+        } else {
+            botao.classList.remove("desativada");
+        }
+    });
+
+    categoriaSelecionada = null; // limpar seleção inválida
+}
+
+// Atualizar categorias quando o tipo muda
+selectTipo.addEventListener("change", atualizarCategorias);
+
+// Selecionar categoria válida
+botoesCategoria.forEach(botao => {
+    botao.addEventListener("click", () => {
+        if (botao.classList.contains("desativada")) return;
+
+        botoesCategoria.forEach(b => b.classList.remove("ativa"));
+        botao.classList.add("ativa");
+
+        categoriaSelecionada = botao.textContent.trim();
+    });
+});
+
+// Executar ao iniciar
+atualizarCategorias();
 
 // quando clico num botão de categoria
 botoesCategoria.forEach(botao => {
@@ -138,4 +174,13 @@ botaoAdicionar.addEventListener("click", function () {
   inputDescricao.value = "";
   inputQuantidade.value = "";
   inputTipo.value = "receita";
+});
+
+const btnTema = document.querySelector("#toggle-theme");
+
+btnTema.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+
+    // trocar ícone
+    btnTema.textContent = document.body.classList.contains("light") ? "🌞" : "🌙";
 });
