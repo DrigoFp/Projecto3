@@ -271,8 +271,11 @@ body.grid {
     padding: 8px;
     border: 1px solid var(--card-borders);
     border-radius: 4px;
-    background-color: transparent;
+    background-color: var(--tertiary-color);
     color: var(--accent-color);
+    color: var(--primary-color);
+
+    
 }
 
 .description-form {

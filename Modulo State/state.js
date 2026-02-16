@@ -49,10 +49,7 @@ export function adicionarTransacao(novaTransacao) {
 
 // 4) Remover transação por id
 export function removerTransacao(id) {
-  const indice = transacoes.findIndex(t => t.id === id);
-  if (indice !== -1) {
-    transacoes.splice(indice, 1);
-    salvarDados(transacoes);
-  }
-  return transacoes;
+    transacoes = transacoes.filter(t => t.id !== id);
+    localStorage.setItem("transacoes", JSON.stringify(transacoes));
+    return transacoes;
 }

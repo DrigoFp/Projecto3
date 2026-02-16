@@ -48,6 +48,7 @@ export function renderizarTransacoes(transacoes) {
             <p class="${transacao.valor < 0 ? "valor-despesa" : "valor-receita"}">
                 ${transacao.valor.toFixed(2)} €
             </p>
+            <button class="btn-remover" data-id="${transacao.id}">🗑️</button>
         `;
 
         listaTransacoes.appendChild(caixaTransacao);
