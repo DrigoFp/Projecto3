@@ -24,8 +24,6 @@ O que deve acontecer quando a página recarrega?
 // IMPORTS
 import { adicionarTransacao, obterTransacoes } from "../Modulo State/state.js";
 import { renderizarTransacoes, renderizarCards } from "../Modulo UserInterface/userIterface.js";
-import { removerTransacao, obterTransacoes } from "../Modulo State/state.js";
-import { renderizarTransacoes, renderizarCards } from "../Modulo UserInterface/userIterface.js";
 
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("btn-remover")) {
