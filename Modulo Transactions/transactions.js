@@ -62,3 +62,14 @@ function calcularSaldo(transacoes) {
   let saldo = receitas + despesas;
   return saldo;
 }
+
+export function criarTransacao(descricao, valor, categoria, tipo) {
+    return {
+        id: crypto.randomUUID(),
+        descricao,
+        valor: tipo === "despesa" ? -valor : valor,
+        categoria,
+        tipo,
+        data: new Date().toLocaleDateString("pt-PT")
+    };
+}

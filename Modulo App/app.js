@@ -22,30 +22,40 @@ O que deve acontecer quando a página recarrega?
 */
 
 // IMPORTS
-import { adicionarTransacao, obterTransacoes } from "../Modulo State/state.js";
-import { renderizarTransacoes, renderizarCards } from "../Modulo UserInterface/userIterface.js";
-import { removerTransacao, obterTransacoes } from "../Modulo State/state.js";
-import { renderizarTransacoes, renderizarCards } from "../Modulo UserInterface/userIterface.js";
+import {
+  adicionarTransacao,
+  obterTransacoes,
+  removerTransacao,
+  carregarDados,
+} from "../Modulo State/state.js";
+
+import {
+  renderizarTransacoes,
+  renderizarCards,
+} from "../Modulo UserInterface/userIterface.js";
+import { criarTransacao } from "../Modulo Transactions/transactions.js";
+
+carregarDados();
 
 document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("btn-remover")) {
-        const id = e.target.dataset.id;
+  if (e.target.classList.contains("btn-remover")) {
+    const id = e.target.dataset.id;
 
-        // CONFIRMAÇÃO
-        const confirmar = confirm("Tens a certeza que queres remover esta transação?");
+    // CONFIRMAÇÃO
+    const confirmar = confirm(
+      "Tens a certeza que queres remover esta transação?"
+    );
 
-        if (!confirmar) return;
+    if (!confirmar) return;
 
-        removerTransacao(id);
+    removerTransacao(id);
 
-        renderizarTransacoes(obterTransacoes());
-        renderizarCards(obterTransacoes());
+    renderizarTransacoes(obterTransacoes());
+    renderizarCards(obterTransacoes());
 
-        mostrarToast("Transação removida!");
-    }
+    mostrarToast("Transação removida!");
+  }
 });
-
-
 
 // CAPTURAR ELEMENTOS DO DOM (Passo 1)
 const inputDescricao = document.querySelector("#descricao");
@@ -63,63 +73,65 @@ const selectTipo = document.querySelector("#tipo-transacao");
 // Função que ativa/desativa categorias conforme o tipo escolhido
 
 function atualizarCategorias() {
-    const tipoAtual = selectTipo.value; // "receita" ou "despesa"
+  const tipoAtual = selectTipo.value; // "receita" ou "despesa"
 
-    botoesCategoria.forEach(botao => {
-        const tipoBotao = botao.classList.contains("receita") ? "receita" : "despesa";
+  botoesCategoria.forEach((botao) => {
+    const tipoBotao = botao.classList.contains("receita")
+      ? "receita"
+      : "despesa";
 
-        if (tipoBotao !== tipoAtual) {
-            botao.classList.add("desativada");
-            botao.classList.remove("ativa");
-        } else {
-            botao.classList.remove("desativada");
-        }
-    });
+    if (tipoBotao !== tipoAtual) {
+      botao.classList.add("desativada");
+      botao.classList.remove("ativa");
+    } else {
+      botao.classList.remove("desativada");
+    }
+  });
 
-    categoriaSelecionada = null; // limpar seleção inválida
+  categoriaSelecionada = null; // limpar seleção inválida
 }
 
 // Atualizar categorias quando o tipo muda
 selectTipo.addEventListener("change", atualizarCategorias);
 
 // Selecionar categoria válida
-botoesCategoria.forEach(botao => {
-    botao.addEventListener("click", () => {
-        if (botao.classList.contains("desativada")) return;
+botoesCategoria.forEach((botao) => {
+  botao.addEventListener("click", () => {
+    if (botao.classList.contains("desativada")) return;
 
-        botoesCategoria.forEach(b => b.classList.remove("ativa"));
-        botao.classList.add("ativa");
+    botoesCategoria.forEach((b) => b.classList.remove("ativa"));
+    botao.classList.add("ativa");
 
-        categoriaSelecionada = botao.textContent.trim();
-    });
+    categoriaSelecionada = botao.textContent.trim();
+  });
 });
 
 // Executar ao iniciar
 atualizarCategorias();
 
 // quando clico num botão de categoria
-botoesCategoria.forEach(botao => {
-    botao.addEventListener("click", () => {
+botoesCategoria.forEach((botao) => {
+  botao.addEventListener("click", () => {
+    const tipoBotao = botao.classList.contains("receita")
+      ? "receita"
+      : "despesa";
 
-        const tipoBotao = botao.classList.contains("receita") ? "receita" : "despesa";
+    // verificar compatibilidade
+    if (tipoBotao !== selectTipo.value) {
+      alert(`Esta categoria só pode ser usada para ${tipoBotao}.`);
+      return;
+    }
 
-        // verificar compatibilidade
-        if (tipoBotao !== selectTipo.value) {
-            alert(`Esta categoria só pode ser usada para ${tipoBotao}.`);
-            return;
-        }
+    // remover seleção anterior
+    botoesCategoria.forEach((b) => b.classList.remove("ativa"));
 
-        // remover seleção anterior
-        botoesCategoria.forEach(b => b.classList.remove("ativa"));
+    // ativar o botão clicado
+    botao.classList.add("ativa");
 
-        // ativar o botão clicado
-        botao.classList.add("ativa");
-
-        // guardar categoria
-        categoriaSelecionada = botao.textContent.trim();
-    });
+    // guardar categoria
+    categoriaSelecionada = botao.textContent.trim();
+  });
 });
-
 
 // CALENDÁRIO DINÂMICO
 
@@ -170,14 +182,13 @@ botaoAdicionar.addEventListener("click", function () {
     return;
   }
   // PASSO 4: Criar objeto transação
-  const novaTransacao = {
-    id: crypto.randomUUID(),
-    descricao: descricao,
-    valor: tipo === "despesa" ? -quantidade : quantidade,
-    tipo: tipo,
-    data: new Date().toISOString().split("T")[0],
-    categoria: "Outros",
-  };
+
+  const novaTransacao = criarTransacao(
+    descricao,
+    quantidade,
+    categoriaSelecionada || "Outros",
+    tipo
+  );
 
   // ---------------------------
   // PASSO 5: Atualizar estado
@@ -201,8 +212,8 @@ botaoAdicionar.addEventListener("click", function () {
 const btnTema = document.querySelector("#toggle-theme");
 
 btnTema.addEventListener("click", () => {
-    document.body.classList.toggle("light");
+  document.body.classList.toggle("light");
 
-    // trocar ícone
-    btnTema.textContent = document.body.classList.contains("light") ? "🌞" : "🌙";
+  // trocar ícone
+  btnTema.textContent = document.body.classList.contains("light") ? "🌞" : "🌙";
 });

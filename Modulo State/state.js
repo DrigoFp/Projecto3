@@ -49,7 +49,7 @@ export function adicionarTransacao(novaTransacao) {
 
 // 4) Remover transação por id
 export function removerTransacao(id) {
-    transacoes = transacoes.filter(t => t.id !== id);
-    localStorage.setItem("transacoes", JSON.stringify(transacoes));
-    return transacoes;
+  transacoes = transacoes.filter(t => t.id !== id);
+  salvarDados(transacoes);
+  return transacoes;
 }
