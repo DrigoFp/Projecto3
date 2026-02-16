@@ -19,6 +19,8 @@ DESAFIO:
 Como aplicar classes diferentes para receita e despesa?
 */
 
+import { removerTransacao } from "../Modulo State/state.js";
+
 export function criarEstrutura() {
   const listaTransacoes = document.querySelector(".lista-transacoes");
   listaTransacoes.innerHTML = ""; // limpar o container
@@ -27,21 +29,21 @@ export function criarEstrutura() {
 // RENDERIZAR LISTA DE TRANSAÇÕES
 
 export function renderizarTransacoes(transacoes) {
-    const listaTransacoes = document.querySelector(".lista-transacoes");
-    listaTransacoes.innerHTML = ""; // limpar antes de renderizar
+  const listaTransacoes = document.querySelector(".lista-transacoes");
+  listaTransacoes.innerHTML = ""; // limpar antes de renderizar
 
-    transacoes.forEach(function (transacao) {
-        const caixaTransacao = document.createElement("div");
-        caixaTransacao.classList.add("transacao");
+  transacoes.forEach(function (transacao) {
+    const caixaTransacao = document.createElement("div");
+    caixaTransacao.classList.add("transacao");
 
-        // aplicar classe dependendo do tipo
-        if (transacao.valor < 0) {
-            caixaTransacao.classList.add("despesa");
-        } else {
-            caixaTransacao.classList.add("receita");
-        }
+    // aplicar classe dependendo do tipo
+    if (transacao.valor < 0) {
+      caixaTransacao.classList.add("despesa");
+    } else {
+      caixaTransacao.classList.add("receita");
+    }
 
-        caixaTransacao.innerHTML = `
+    caixaTransacao.innerHTML = `
             <p>${transacao.descricao}</p>
             <p>${transacao.categoria}</p>
             <p>${transacao.data}</p>
@@ -51,32 +53,45 @@ export function renderizarTransacoes(transacoes) {
             <button class="btn-remover" data-id="${transacao.id}">🗑️</button>
         `;
 
-        listaTransacoes.appendChild(caixaTransacao);
-    });
+    listaTransacoes.appendChild(caixaTransacao);
+  });
 }
 
 // RENDERIZAR CARDS (saldo, receitas, despesas)
 
 export function renderizarCards(transacoes) {
-    const totalReceitas = transacoes
-        .filter(t => t.valor > 0)
-        .reduce((acc, t) => acc + t.valor, 0);
+  const totalReceitas = transacoes
+    .filter((t) => t.valor > 0)
+    .reduce((acc, t) => acc + t.valor, 0);
 
-    const totalDespesas = transacoes
-        .filter(t => t.valor < 0)
-        .reduce((acc, t) => acc + t.valor, 0);
+  const totalDespesas = transacoes
+    .filter((t) => t.valor < 0)
+    .reduce((acc, t) => acc + t.valor, 0);
 
-    const saldo = totalReceitas + totalDespesas;
+  const saldo = totalReceitas + totalDespesas;
 
-    // CARD 1 — SALDO TOTAL
-    document.querySelector(".cards .card:nth-child(1) .valor").textContent =
-        saldo.toFixed(2) + " €";
+  // CARD 1 — SALDO TOTAL
+  document.querySelector(".cards .card:nth-child(1) .valor").textContent =
+    saldo.toFixed(2) + " €";
 
-    // CARD 2 — RECEITAS
-    document.querySelector(".cards .card:nth-child(2) .valor").textContent =
-        totalReceitas.toFixed(2) + " €";
+  // CARD 2 — RECEITAS
+  document.querySelector(".cards .card:nth-child(2) .valor").textContent =
+    totalReceitas.toFixed(2) + " €";
 
-    // CARD 3 — DESPESAS
-    document.querySelector(".cards .card:nth-child(3) .valor").textContent =
-        totalDespesas.toFixed(2) + " €";
+  // CARD 3 — DESPESAS
+  document.querySelector(".cards .card:nth-child(3) .valor").textContent =
+    totalDespesas.toFixed(2) + " €";
+}
+
+// CRIAR TRANSACAO COM DATA
+
+export function criarTransacao(descricao, valor, categoria, tipo) {
+  return {
+    id: Date.now(),
+    descricao,
+    valor,
+    categoria,
+    tipo,
+    data: new Date().toLocaleDateString("pt-PT"),
+  };
 }
