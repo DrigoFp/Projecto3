@@ -31,6 +31,11 @@ document.addEventListener("click", (e) => {
     if (e.target.classList.contains("btn-remover")) {
         const id = e.target.dataset.id;
 
+        // CONFIRMAÇÃO
+        const confirmar = confirm("Tens a certeza que queres remover esta transação?");
+
+        if (!confirmar) return;
+
         removerTransacao(id);
 
         renderizarTransacoes(obterTransacoes());
@@ -39,6 +44,7 @@ document.addEventListener("click", (e) => {
         mostrarToast("Transação removida!");
     }
 });
+
 
 
 // CAPTURAR ELEMENTOS DO DOM (Passo 1)
