@@ -16,8 +16,18 @@
     --card-background: #0c20235a;
     --primary-color-opacity: #13ec9241;
 }
+body.light {
+    --primary-color: #0a8f5d;
+    --secondary-color: #ffffff;
+    --tertiary-color: #f2f2f2;
+    --accent-color: #000000;
+    --gray-titles: #555;
+    --card-background: #ffffff;
+    --card-borders: #dcdcdc;
+    --expense-color: #c73333;
+}
 
-body {
+body.grid {
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
 
@@ -261,8 +271,11 @@ body {
     padding: 8px;
     border: 1px solid var(--card-borders);
     border-radius: 4px;
-    background-color: transparent;
+    background-color: var(--tertiary-color);
     color: var(--accent-color);
+    color: var(--primary-color);
+
+    
 }
 
 .description-form {
@@ -448,4 +461,158 @@ body {
     font-weight: 500;
     padding: 15px;
     text-align: center;
+}
+
+.categorias.ativa {
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #2e7d32;
+}
+
+.categorias.desativada {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+
+@media (max-width: 768px) {
+
+    body.grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "main"
+            "footer";
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+
+    .sidebar a {
+        font-size: 14px;
+    }
+
+    .main {
+        padding: 10px;
+    }
+
+    .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    .nova-transacao {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .categorias {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .categorias div {
+        flex: 1 1 45%;
+        text-align: center;
+    }
+
+    .btn-menu {
+    background: none;
+    border: 1px solid var(--card-borders);
+    color: var(--accent-color);
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.sidebar {
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+}
+
+.sidebar.fechada {
+    transform: translateX(-100%);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    height: calc(100vh - 60px);
+    z-index: 10;
+}
+
+}
+
+@media (max-width: 480px) {
+    .sidebar a {
+        font-size: 12px;
+    }
+
+    .categorias div {
+        flex: 1 1 100%;
+    }
+}
+
+.card, .nova-transacao, .historico {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover, .nova-transacao:hover, .historico:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--tertiary-color);
+    color: var(--accent-color);
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--card-borders);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: 12px;
+}
+
+.toast.visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toggle-theme {
+    background: none;
+    border: 1px solid var(--card-borders);
+    color: var(--accent-color);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.card, .nova-transacao, .historico {
+    border-radius: 16px;
+}
+
+.card, .nova-transacao, .historico {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.main {
+    padding: 24px;
 }
